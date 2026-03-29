@@ -7,6 +7,12 @@ const videos = [
 	{ src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791236/nnn4444.mov", ar: "16/9" },
 	{ src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791249/grid_2024.mov", ar: "16/9" },
 ];
+
+function getPoster(src: string) {
+	return src
+		.replace("/video/upload/", "/video/upload/so_0,w_800,e_blur:300,q_40/")
+		.replace(/\.\w+$/, ".jpg");
+}
 ---
 
 <Layout uid="films" template="home">
@@ -18,10 +24,12 @@ const videos = [
 					<div class="films-panel__inner" style={`--ar: ${v.ar};`}>
 						<video
 							src={v.src}
+							poster={getPoster(v.src)}
 							autoplay
 							muted
 							loop
 							playsinline
+							preload="metadata"
 						/>
 					</div>
 				</section>

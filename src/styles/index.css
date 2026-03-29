@@ -18,6 +18,22 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: "The Seasons", serif;
 }
 
+.logo h1 {
+	font-family: "Satoshi", sans-serif;
+}
+
+.about h1,
+.contact h1 {
+	display: inline-block;
+	padding-bottom: 0.35rem;
+	border-bottom: 1px solid #000;
+}
+
+.frame ul a.is-active {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
 :root {
 	font-size: 16px;
 	--color-text: #000000;
@@ -233,16 +249,17 @@ h1 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: var(--page-padding);
+	padding: 0 var(--page-padding) 4rem;
 }
 
 .films-panel__inner {
 	width: 100%;
-	max-width: 80vw;
-	max-height: 85vh;
+	max-width: 70vw;
+	max-height: 60vh;
 	aspect-ratio: var(--ar);
 	overflow: hidden;
 	filter: grayscale(1);
+	background: #e8e8e8;
 }
 
 .films-panel__inner video {

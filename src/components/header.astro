@@ -1,10 +1,14 @@
+---
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
 <header class="frame">
 	<a href="/" class="logo">
 		<h1>Soqrat Films</h1>
 	</a>
 	<ul>
-		<li><a href="/about">About</a></li>
-		<li><a href="/films">Films</a></li>
-		<li><a href="/contact">Contact</a></li>
+		<li><a href="/about" class={pathname === '/about' ? 'is-active' : ''}>About</a></li>
+		<li><a href="/films" class={pathname === '/films' ? 'is-active' : ''}>Films</a></li>
+		<li><a href="/contact" class={pathname === '/contact' ? 'is-active' : ''}>Contact</a></li>
 	</ul>
 </header>
