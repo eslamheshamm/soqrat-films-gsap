@@ -1,0 +1,37 @@
+---
+import "../styles/index.css";
+
+const { uid, template } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link
+			rel="preload"
+			href="/fonts/satoshi/Satoshi-Variable.ttf"
+			as="font"
+			type="font/ttf"
+			crossorigin
+		/>
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content="Soqrat Films is a film production studio." />
+		<meta property="og:title" content="Soqrat Films" />
+		<meta property="og:description" content="Soqrat Films is a film production studio." />
+		<meta property="og:url" content="https://soqratfilms.com" />
+		<link rel="stylesheet" href="https://use.typekit.net/gwa0xin.css" />
+		<title>Soqrat Films</title>
+	</head>
+	<body data-barba="wrapper">
+		<div id="app" data-barba="container" data-barba-namespace={uid}>
+			<div id="smooth-content" data-page-template={template}>
+				<slot />
+			</div>
+		</div>
+		<canvas id="webgl"></canvas>
+		<script src="../app/main.ts"></script>
+	</body>
+</html>

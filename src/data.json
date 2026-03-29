@@ -1,0 +1,59 @@
+[
+	{
+		"url": "/assets/photos/1.JPG",
+		"index": 1,
+		"name": "",
+		"location": "",
+		"data": ""
+	},
+	{
+		"url": "/assets/photos/2.JPG",
+		"index": 2,
+		"name": "",
+		"location": "",
+		"data": ""
+	},
+	{
+		"url": "/assets/photos/3.JPG",
+		"index": 3,
+		"name": "",
+		"location": "",
+		"data": ""
+	},
+	{
+		"url": "/assets/photos/4.JPG",
+		"index": 4,
+		"name": "",
+		"location": "",
+		"data": ""
+	},
+	{
+		"url": "/assets/photos/5.jpg",
+		"index": 5,
+		"name": "",
+		"location": "",
+		"data": ""
+	},
+
+	{
+		"url": "/assets/photos/10.PNG",
+		"index": 6,
+		"name": "",
+		"location": "",
+		"data": ""
+	},
+	{
+		"url": "/assets/8.webp",
+		"index": 8,
+		"name": "Shelter from the Wind",
+		"location": "Expedition Route",
+		"data": "July 9, 1970"
+	},
+	{
+		"url": "/assets/9.webp",
+		"index": 9,
+		"name": "Last Light",
+		"location": "Far Horizon",
+		"data": "August 31, 1978"
+	}
+]

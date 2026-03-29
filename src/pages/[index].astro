@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import medias from '../data.json';
+import Header from '../components/header.astro';
+
+export const getStaticPaths = async () => {
+  return medias.map((media) => {
+    return {
+      params: { index: media.index.toString() },
+      props: {
+        media,
+      },
+    };
+  });
+};
+
+const { media } = Astro.props;
+---
+
+<Layout uid={`detail-${media.index}`} template="detail">
+  <Header />
+  <div class="details">
+    <div data-text-animation class="details-data">
+      <a href="/">← Index</a>
+      <p>{media.data}</p>
+      <p>{media.location}</p>
+      <p>{media.name}</p>
+    </div>
+    <div class="details-container">
+      <img
+        data-detail-media
+        loading="eager"
+        src={media.url}
+        alt={`Image ${media.index}`}
+      />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,162 @@
+---
+import Layout from "../layouts/Layout.astro";
+import medias from "../data.json";
+import Header from "../components/header.astro";
+---
+
+<Layout uid="home" template="home">
+	<div data-gallery-container class="container">
+		<Header />
+		<div class="grid-container">
+			<div class="grid">
+				<h2
+					class="grid__item"
+					style="--r: 1; --c: 5; --s: 5; place-content: flex-end; text-wrap: balance;"
+					data-text-animation-in-duration="0.5"
+					data-text-animation-out-duration="0.4"
+					data-text-animation-in-delay="0.4"
+					data-text-animation
+					data-text-animation-split
+				>
+					we feel blessed that so many couples have trusted us to preserve their
+					memories over the years. It's a true honor and we are beyond grateful.
+					We can't wait to work with you and create a timeless film that you
+					will cherish forever!
+				</h2>
+				<a class="grid__item" href="/1" style="--r: 1; --c: 1; --s: 4">
+					<img loading="eager" src={medias[0].url} alt="" />
+				</a>
+				<a class="grid__item" href="/2" style="--r: 2; --c: 5; --s: 4">
+					<img loading="eager" src={medias[1].url} alt="" />
+				</a>
+				<!-- <a class="grid__item" href="/5" style="--r: 2; --c: 2; --s: 3">
+					<img loading="eager" src={medias[4].url} alt="" />
+				</a> -->
+				<!-- <a class="grid__item" href="/3" style="--r: 2; --c: 8; --s: 1">
+					<img loading="eager" src={medias[2].url} alt="" />
+					<p data-text-animation>
+						{medias[2].name}
+					</p>
+				</a> -->
+				<a class="grid__item" href="/3" style="--r: 3; --c: 4; --s: 6">
+					<img loading="eager" src={medias[5].url} alt="" />
+				</a>
+
+				<!-- <p
+					class="grid__item"
+					style="font-size: 1.45rem; --r: 5; --c: 4; --s: 4;"
+					data-text-animation-out-stagger="-0.03"
+					data-text-animation
+					data-text-animation-split
+				> -->
+				<!-- text -->
+				<!-- </p> -->
+			</div>
+			<a class="grid__item" href="/8" style="--r: 8; --c: 1; --s: 3">
+				<!-- <img loading="eager" src={medias[4].url} alt="" /> -->
+			</a>
+		</div>
+	</div>
+</Layout>
+<!-- <section class="related">
+		<p>You might also like</p>
+		<div class="relgrid">
+			<a
+				class="relgrid__item"
+				href="https://tympanus.net/Tutorials/InfiniteCanvas/"
+				target="_blank"
+			>
+				<div
+					class="relgrid__item-img"
+					style="
+            background-image: url(https://tympanus.net/codrops/wp-content/uploads/2025/12/edoardo-lunardi-infinite-canvas-featured-image-400x300.jpg);
+          "
+				>
+				</div>
+				<h3 class="relgrid__item-title">
+					Infinite Canvas: Building a Seamless, Pan-Anywhere Image Space
+				</h3>
+			</a>
+
+			<a
+				class="relgrid__item"
+				href="https://tympanus.net/Tutorials/PalmerDraggablerelgrid/"
+				target="_blank"
+			>
+				<div
+					class="relgrid__item-img"
+					style="
+            background-image: url(https://tympanus.net/codrops/wp-content/uploads/2025/09/palmersgrid-400x300.jpg);
+          "
+				>
+				</div>
+				<h3 class="relgrid__item-title">
+					Recreating Palmer’s Draggable Product relgrid with GSAP
+				</h3>
+			</a>
+
+			<a
+				class="relgrid__item"
+				href="https://tympanus.net/Development/OnScrollTextHighlight/"
+				target="_blank"
+			>
+				<div
+					class="relgrid__item-img"
+					style="background-image: url(https://tympanus.net/codrops/wp-content/uploads/2024/04/TextHighlight-400x300.jpg)"
+				>
+				</div>
+				<h3 class="relgrid__item-title">
+					Some On-Scroll Text Highlight Animations
+				</h3>
+			</a>
+
+			<a
+				class="relgrid__item"
+				href="https://tympanus.net/Tutorials/Cinematic3DScroll/"
+				target="_blank"
+			>
+				<div
+					class="relgrid__item-img"
+					style="
+            background-image: url(https://tympanus.net/codrops/wp-content/uploads/2025/11/cinematicGSAP_featured-400x300.jpeg);
+          "
+				>
+				</div>
+				<h3 class="relgrid__item-title">
+					How to Build Cinematic 3D Scroll Experiences with GSAP
+				</h3>
+			</a>
+
+			<a
+				class="relgrid__item"
+				href="https://tympanus.net/Tutorials/TelescopeZoom/"
+				target="_blank"
+			>
+				<div
+					class="relgrid__item-img"
+					style="
+            background-image: url(https://tympanus.net/codrops/wp-content/uploads/2025/10/thumb-3-400x300.png);
+          "
+				>
+				</div>
+				<h3 class="relgrid__item-title">
+					Layered Zoom Scroll Effect with GSAP ScrollSmoother and ScrollTrigger
+				</h3>
+			</a>
+
+			<a
+				class="relgrid__item"
+				href="https://tympanus.net/Tutorials/ShaderAnimationGSAP/"
+				target="_blank"
+			>
+				<div
+					class="relgrid__item-img"
+					style="background-image: url(https://tympanus.net/codrops/wp-content/uploads/2025/10/animating-shaders-with-gsap-for-your-immersive-website-cover-400x300.jpg)"
+				>
+				</div>
+				<h3 class="relgrid__item-title">
+					WebGL Shaders with GSAP: Ripples, Reveals, and Dynamic Blur Effects
+				</h3>
+			</a>
+		</div>
+	</section> -->

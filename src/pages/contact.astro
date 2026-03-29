@@ -1,0 +1,40 @@
+---
+import Layout from "../layouts/Layout.astro";
+import medias from "../data.json";
+import Header from "../components/header.astro";
+---
+
+<Layout uid="contact" template="home">
+	<div data-gallery-container class="container">
+		<Header />
+		<div class="grid-container">
+			<div class="grid">
+				<h1
+					class="grid__item"
+					style="--r: 1; --c: 1; --s: 4;"
+					data-text-animation-in-duration="0.5"
+					data-text-animation-out-duration="0.4"
+					data-text-animation-in-delay="0.4"
+					data-text-animation
+					data-text-animation-split
+				>
+					Contact <br />
+					<!-- Soqrat <br />Films <br /> -->
+				</h1>
+				<!-- <a class="grid__item" href="/1" style="--r: 1; --c: 1; --s: 4">
+					<img loading="eager" src={medias[0].url} alt="" />
+					<p data-text-animation>
+						{medias[0].name}
+					</p>
+				</a>
+				<a class="grid__item" href="/2" style="--r: 2; --c: 4; --s: 3">
+					<img loading="eager" src={medias[1].url} alt="" />
+					<p data-text-animation>
+						{medias[1].name}
+					</p>
+				</a>
+            -->
+			</div>
+		</div>
+	</div>
+</Layout>
