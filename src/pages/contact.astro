@@ -1,40 +1,44 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import medias from "../data.json";
 import Header from "../components/header.astro";
 ---
 
 <Layout uid="contact" template="home">
 	<div data-gallery-container class="container">
 		<Header />
-		<div class="grid-container">
-			<div class="grid">
-				<h1
-					class="grid__item"
-					style="--r: 1; --c: 1; --s: 4;"
-					data-text-animation-in-duration="0.5"
-					data-text-animation-out-duration="0.4"
-					data-text-animation-in-delay="0.4"
-					data-text-animation
-					data-text-animation-split
-				>
-					Contact <br />
-					<!-- Soqrat <br />Films <br /> -->
-				</h1>
-				<!-- <a class="grid__item" href="/1" style="--r: 1; --c: 1; --s: 4">
-					<img loading="eager" src={medias[0].url} alt="" />
-					<p data-text-animation>
-						{medias[0].name}
-					</p>
-				</a>
-				<a class="grid__item" href="/2" style="--r: 2; --c: 4; --s: 3">
-					<img loading="eager" src={medias[1].url} alt="" />
-					<p data-text-animation>
-						{medias[1].name}
-					</p>
-				</a>
-            -->
-			</div>
+		<div class="contact">
+			<h1 data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+				Contact Us
+			</h1>
+
+			<form class="contact__form" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+				<div class="contact__field">
+					<label for="name">Name</label>
+					<input type="text" id="name" name="name" required autocomplete="name" />
+				</div>
+
+				<div class="contact__field">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" required autocomplete="email" />
+				</div>
+
+				<div class="contact__field">
+					<label for="phone">Phone</label>
+					<input type="tel" id="phone" name="phone" autocomplete="tel" />
+				</div>
+
+				<div class="contact__field">
+					<label for="date">Wedding Date</label>
+					<input type="text" id="date" name="date" placeholder="e.g. June 2026" />
+				</div>
+
+				<div class="contact__field">
+					<label for="message">Message</label>
+					<textarea id="message" name="message" rows="1" required></textarea>
+				</div>
+
+				<button type="submit">Send</button>
+			</form>
 		</div>
 	</div>
 </Layout>

@@ -6,6 +6,18 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: "The Seasons";
+	src: url("/fonts/satoshi/the-seasons-regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "The Seasons", serif;
+}
+
 :root {
 	font-size: 16px;
 	--color-text: #000000;
@@ -168,7 +180,6 @@ h1 {
 	line-height: 100%;
 	align-self: end;
 	padding-bottom: 1.5rem;
-	padding-left: 1rem;
 }
 
 .container {
@@ -214,6 +225,141 @@ h1 {
 
 .grid__item--video {
 	overflow: hidden;
+}
+
+.films-panel {
+	width: 100%;
+	height: 100dvh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--page-padding);
+}
+
+.films-panel__inner {
+	width: 100%;
+	max-width: 80vw;
+	max-height: 85vh;
+	aspect-ratio: var(--ar);
+	overflow: hidden;
+	filter: grayscale(1);
+}
+
+.films-panel__inner video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.about {
+	max-width: 720px;
+	padding: 0 var(--page-padding) 10vh;
+}
+
+.about h1 {
+	font-size: clamp(1.5rem, 3vw, 2.5rem);
+	margin-bottom: 1.5rem;
+}
+
+.about__text {
+	font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+	line-height: 1.7;
+	margin-bottom: 4rem;
+}
+
+.about__faq h2 {
+	font-size: clamp(1.5rem, 3vw, 2.5rem);
+	font-weight: 400;
+	text-transform: uppercase;
+	margin-bottom: 3rem;
+}
+
+.about__faq-item {
+	padding: 2rem 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.about__faq-item:last-child {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.about__faq-item h3 {
+	font-size: clamp(1rem, 1.5vw, 1.15rem);
+	font-weight: 500;
+	margin-bottom: 0.75rem;
+}
+
+.about__faq-item p {
+	font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+	line-height: 1.7;
+	opacity: 0.7;
+}
+
+.contact {
+	max-width: 720px;
+	padding: 0 var(--page-padding) 10vh;
+}
+
+.contact h1 {
+	font-size: clamp(1.5rem, 3vw, 2.5rem);
+	margin-bottom: 2rem;
+}
+
+.contact__form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.contact__field {
+	display: flex;
+	flex-direction: column;
+}
+
+.contact__field label {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 0.5rem;
+	opacity: 0.5;
+}
+
+.contact__field input,
+.contact__field textarea {
+	font-family: inherit;
+	font-size: 1rem;
+	padding: 0.5rem 0;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	background: transparent;
+	outline: none;
+	resize: none;
+	transition: border-color 0.3s;
+}
+
+.contact__field input:focus,
+.contact__field textarea:focus {
+	border-bottom-color: #000;
+}
+
+.contact__form button {
+	align-self: flex-start;
+	font-family: inherit;
+	font-size: 0.85rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	padding: 0.75rem 2.5rem;
+	margin-top: 1rem;
+	border: 1px solid #000;
+	background: transparent;
+	cursor: pointer;
+	transition: background 0.3s, color 0.3s;
+}
+
+.contact__form button:hover {
+	background: #000;
+	color: #fff;
 }
 
 .details {

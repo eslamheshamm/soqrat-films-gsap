@@ -1,39 +1,64 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import medias from "../data.json";
 import Header from "../components/header.astro";
 ---
 
 <Layout uid="about" template="home">
 	<div data-gallery-container class="container">
 		<Header />
-		<div class="grid-container">
-			<div class="grid">
-				<h1
-					class="grid__item"
-					style="--r: 1; --c: 1; --s: 4;"
-					data-text-animation-in-duration="0.5"
-					data-text-animation-out-duration="0.4"
-					data-text-animation-in-delay="0.4"
-					data-text-animation
-					data-text-animation-split
-				>
-					About <br />
-					<!-- Soqrat <br />Films <br /> -->
-				</h1>
-				<!-- <a class="grid__item" href="/1" style="--r: 1; --c: 1; --s: 4">
-					<img loading="eager" src={medias[0].url} alt="" />
-					<p data-text-animation>
-						{medias[0].name}
+		<div class="about">
+			<h1 data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+				About Us
+			</h1>
+
+			<p class="about__text" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+				We feel blessed that so many couples have trusted us to preserve their
+				memories over the years. It's a true honor and we are beyond grateful.
+				We can't wait to work with you and create a timeless film that you
+				will cherish forever!
+			</p>
+
+			<div class="about__faq">
+				<h2 data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">FAQ</h2>
+
+				<div class="about__faq-item" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+					<h3>Can we meet before booking?</h3>
+					<p>
+						Yes, we strongly encourage it. A personal conversation allows us to
+						align expectations and ensure a genuine connection. Our work is built
+						on trust, and that relationship begins well before the wedding day.
 					</p>
-				</a>
-				<a class="grid__item" href="/2" style="--r: 2; --c: 4; --s: 3">
-					<img loading="eager" src={medias[1].url} alt="" />
-					<p data-text-animation>
-						{medias[1].name}
+				</div>
+
+				<div class="about__faq-item" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+					<h3>What is your creative approach?</h3>
+					<p>
+						Our work is guided by authorship. We don't offer videos on demand or
+						fixed formats. Each film is shaped through our vision, adapted to
+						your story.
 					</p>
-				</a>
-            -->
+				</div>
+
+				<div class="about__faq-item" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+					<h3>How do you approach filming on the wedding day?</h3>
+					<p>
+						Our presence is discreet and intentional. We don't over-direct, but
+						we do gently guide when it elevates the story, creating space and
+						simple scenarios where moments can unfold naturally. The goal is for
+						you and your guests to feel fully present, while we focus on
+						capturing atmosphere, emotion, and the rhythm of the day.
+					</p>
+				</div>
+
+				<div class="about__faq-item" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+					<h3>Do you offer custom projects?</h3>
+					<p>
+						We're always inspired to bring unique stories to life — projects we
+						pour our passion into and craft with the highest artistic vision.
+						Please don't hesitate to share yours — we're always excited to hear
+						it.
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -7,13 +7,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ScrollSmoother } from "gsap/ScrollSmoother"
 //@ts-ignore
 import { Flip } from "gsap/Flip"
+import { Observer } from "gsap/Observer"
+import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import gsap from "gsap"
 import Media from "./components/media"
 import { SplitText } from "gsap/SplitText"
 import TextAnimation from "./components/text-animation"
 import FontFaceObserver from "fontfaceobserver"
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip, SplitText)
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip, SplitText, Observer, ScrollToPlugin)
 
 class App {
   canvas: Canvas
@@ -25,6 +27,7 @@ class App {
   scrollTop: number
   textAnimation: TextAnimation
   fontLoaded: boolean = false
+  filmsObserver: Observer | null = null
 
   constructor() {
     if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -42,6 +45,7 @@ class App {
 
     this.loadImages(() => {
       this.canvas.createMedias()
+      this.initFilmsScroll()
       if (this.fontLoaded) {
         this.textAnimation.init()
         this.textAnimation.animateIn()
@@ -110,6 +114,7 @@ class App {
               media = null
             })
 
+            this.destroyFilmsScroll()
             this.scrollBlocked = false
 
             this.scroll.reset()
@@ -127,6 +132,8 @@ class App {
               this.canvas.createMedias()
               this.textAnimation.animateIn({ delay: 0.3 })
             })
+
+            this.initFilmsScroll()
           },
         },
         {
@@ -267,6 +274,71 @@ class App {
 
     this.render = this.render.bind(this)
     gsap.ticker.add(this.render)
+  }
+
+  initFilmsScroll() {
+    this.destroyFilmsScroll()
+
+    const panels = gsap.utils.toArray<HTMLElement>("[data-films-panel]")
+    if (!panels.length) return
+
+    const sections = panels
+    let currentIndex = -1
+    let isAnimating = false
+    let cooldown = false
+
+    function goToSection(index: number) {
+      if (index < -1 || index >= sections.length || isAnimating || cooldown) return
+      isAnimating = true
+      cooldown = true
+      currentIndex = index
+
+      // Scroll back to top (header) when index is -1
+      if (index === -1) {
+        gsap.to(window, {
+          scrollTo: { y: 0, autoKill: false },
+          duration: 0.8,
+          ease: "power3.inOut",
+          onComplete: () => {
+            isAnimating = false
+            gsap.delayedCall(0.4, () => { cooldown = false })
+          },
+        })
+        return
+      }
+
+      const el = sections[index]
+      const elTop = el.offsetTop
+      const elHeight = el.offsetHeight
+      const viewportHeight = window.innerHeight
+      const targetScroll = elTop - (viewportHeight - elHeight) / 2
+
+      gsap.to(window, {
+        scrollTo: { y: Math.max(0, targetScroll), autoKill: false },
+        duration: 0.8,
+        ease: "power3.inOut",
+        onComplete: () => {
+          isAnimating = false
+          gsap.delayedCall(0.4, () => { cooldown = false })
+        },
+      })
+    }
+
+    this.filmsObserver = Observer.create({
+      type: "wheel,touch,pointer",
+      wheelSpeed: -1,
+      tolerance: 50,
+      onUp: () => goToSection(currentIndex + 1),
+      onDown: () => goToSection(currentIndex - 1),
+      preventDefault: true,
+    })
+  }
+
+  destroyFilmsScroll() {
+    if (this.filmsObserver) {
+      this.filmsObserver.kill()
+      this.filmsObserver = null
+    }
   }
 
   getCurrentTemplate() {
