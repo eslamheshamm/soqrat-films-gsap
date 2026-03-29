@@ -33,12 +33,7 @@ public/assets/photos/*
 !public/assets/photos/5.jpg
 !public/assets/photos/10.PNG
 
-public/assets/videos/*
-!public/assets/videos/Sequence 02.mp4
-!public/assets/videos/grid_5x5_tall_2.mov
-!public/assets/videos/nnn4444.mov
-!public/assets/videos/video_1_60ea711894fd4727af993b44a1712f82.mov
-!public/assets/videos/grid 2024.mov
+public/assets/videos/
 
 public/assets/*.webp
 !public/assets/8.webp
