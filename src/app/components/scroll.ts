@@ -12,31 +12,20 @@ export default class Scroll {
 
   init() {
     this.scroll = 0
-
-    // Initialize smoother with explicit content to ensure proper sync
-    this.s = ScrollSmoother.create({
-      smooth: 1,
-      normalizeScroll: true,
-      wrapper: document.getElementById("app") as HTMLElement,
-      content: document.getElementById("smooth-content") as HTMLElement,
-    })
-
+    this.s = null
     ScrollTrigger.refresh()
   }
 
-  reset(immediate?: boolean) {
-    if (immediate) this.s?.scrollTo(0, false, "top top")
-    else this.s?.scrollTop(0)
+  reset() {
+    window.scrollTo(0, 0)
   }
 
   destroy() {
-    this.s?.kill()
     this.s = null
   }
 
   getScroll() {
-    this.scroll = this.s?.scrollTop() || 0
-
+    this.scroll = window.scrollY || 0
     return this.scroll
   }
 }

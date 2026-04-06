@@ -46,6 +46,7 @@ class App {
     this.loadImages(() => {
       this.canvas.createMedias()
       this.initFilmsScroll()
+      this.entryAnimation()
       if (this.fontLoaded) {
         this.textAnimation.init()
         this.textAnimation.animateIn()
@@ -126,6 +127,8 @@ class App {
 
             const template = this.getCurrentTemplate()
             this.setTemplate(template)
+
+            this.entryAnimation()
 
             this.loadImages(() => {
               this.canvas.medias = []
@@ -274,6 +277,19 @@ class App {
 
     this.render = this.render.bind(this)
     gsap.ticker.add(this.render)
+  }
+
+  entryAnimation() {
+    const header = document.querySelector(".frame") as HTMLElement
+    const gridContainer = document.querySelector(".grid-container") as HTMLElement
+
+    if (header) {
+      gsap.fromTo(header, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
+    }
+
+    if (gridContainer) {
+      gsap.fromTo(gridContainer, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8, ease: "power2.out", delay: 0.2 })
+    }
   }
 
   initFilmsScroll() {

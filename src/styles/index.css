@@ -20,6 +20,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .logo h1 {
 	font-family: "Satoshi", sans-serif;
+	padding-bottom: 0;
 }
 
 .about h1,
@@ -99,79 +100,33 @@ a {
 
 .frame {
 	padding: 1rem var(--page-padding);
-	display: grid;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.25rem;
+	padding-bottom: 1.5rem;
 	z-index: 1000;
 	position: relative;
-	grid-row-gap: 1rem;
-	grid-column-gap: 2rem;
-	pointer-events: none;
-	justify-items: start;
-	grid-template-columns: auto auto auto 1fr;
-	grid-template-areas:
-		"title title title title"
-		"back archive github ..."
-		"tags tags tags tags"
-		"sponsor sponsor sponsor sponsor";
-
-	#cdawrap {
-		justify-self: start;
-		grid-area: sponsor;
-	}
+	visibility: hidden;
 
 	a,
 	button {
 		pointer-events: auto;
 	}
 
-	.frame__title {
-		grid-area: title;
-		font-size: inherit;
-		margin: 0;
-		font-weight: bold;
-	}
-
-	.frame__back {
-		grid-area: back;
-		justify-self: start;
-	}
-
-	.frame__archive {
-		grid-area: archive;
-		justify-self: start;
-	}
-
-	.frame__github {
-		grid-area: github;
-	}
-
-	.frame__tags {
-		grid-area: tags;
+	ul {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
+		gap: 1.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		font-family: inherit;
 	}
 
 	@media screen and (min-width: 53em) {
-		grid-template-columns: auto auto auto auto 1fr;
-		grid-template-rows: auto auto;
-		align-content: space-between;
-		grid-template-areas:
-			"title back github archive demos"
-			"tags tags tags sponsor sponsor";
-
-		.frame__tags {
-			align-self: end;
-		}
-
-		.frame__title {
-			padding-right: 2rem;
-		}
-
-		#cdawrap {
-			justify-self: end;
-			text-align: right;
-			max-width: 300px;
-		}
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
 	}
 }
 
@@ -206,6 +161,7 @@ h1 {
 .grid-container {
 	display: flex;
 	flex-direction: column;
+	visibility: hidden;
 }
 
 .grid {
@@ -221,6 +177,18 @@ h1 {
 	grid-row: var(--r);
 	aspect-ratio: var(--ar);
 	filter: grayscale(1);
+}
+
+@media screen and (max-width: 53em) {
+	.grid {
+		grid-template-columns: 1fr;
+		row-gap: 5vh;
+	}
+
+	.grid__item {
+		grid-column: 1 / -1;
+		grid-row: auto;
+	}
 }
 
 .grid__item p {
