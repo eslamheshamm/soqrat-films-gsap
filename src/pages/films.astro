@@ -3,9 +3,79 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/header.astro";
 
 const videos = [
-	{ src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791182/grid_5x5_tall_2.mov", ar: "4/5" },
-	{ src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791236/nnn4444.mov", ar: "16/9" },
-	{ src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791249/grid_2024.mov", ar: "16/9" },
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775504023/1_mhestl.mov",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775503970/2_dbvh23.mov",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775503984/3_nfsl6t.mov",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775504004/4_jhxpfg.mov",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775504021/5_rsqxy5.mov",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775503984/6_obnmmx.mov",
+		ar: "13/11.55",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775503952/7_vlqv70.mov",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775503959/8_sruzmk.mov",
+		ar: "4/5",
+	},
+];
+
+const films = [
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506281/h100_yvvkq0.mp4",
+		ar: "1/1",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506027/n1666_krrcg1.mp4",
+		ar: "1/1",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791236/nnn4444.mov",
+		ar: "1/1",
+	},
+
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506703/p1_fcelkf.mp4",
+		ar: "13/10.8",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506687/stills_asea_still_dfedk6.mov",
+		ar: "1/1",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506682/reel1_no_logo_cpyhq5.mp4",
+		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506626/cloth_f6rqbj.mp4",
+		ar: "16/9",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506595/final_soq_add_color_xbwdbu.mp4",
+		ar: "4/5",
+	},
+
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506415/p2_vwcpsm.mp4",
+		ar: "1/1",
+	},
 ];
 
 function getPoster(src: string) {
@@ -18,22 +88,47 @@ function getPoster(src: string) {
 <Layout uid="films" template="home">
 	<div data-gallery-container class="container">
 		<Header />
-		<div class="films-stack" data-films-stack>
-			{videos.map((v, i) => (
-				<section class="films-panel" data-films-panel>
-					<div class="films-panel__inner" style={`--ar: ${v.ar};`}>
-						<video
-							src={v.src}
-							poster={getPoster(v.src)}
-							autoplay
-							muted
-							loop
-							playsinline
-							preload="metadata"
-						/>
+
+		<section class="films-section">
+			<div class="films-horizontal" data-films-horizontal>
+				<div class="films-track" data-films-track>
+					{
+						videos.map((v) => (
+							<div class="films-track__item" style={`--ar: ${v.ar};`}>
+								<video
+									src={v.src}
+									poster={getPoster(v.src)}
+									autoplay
+									muted
+									loop
+									playsinline
+									preload="metadata"
+								/>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<section class="films-featured" data-films-stack>
+			{
+				films.map((v) => (
+					<div class="films-panel" data-films-panel>
+						<div class="films-panel__inner" style={`--ar: ${v.ar};`}>
+							<video
+								src={v.src}
+								poster={getPoster(v.src)}
+								autoplay
+								muted
+								loop
+								playsinline
+								preload="metadata"
+							/>
+						</div>
 					</div>
-				</section>
-			))}
-		</div>
+				))
+			}
+		</section>
 	</div>
 </Layout>

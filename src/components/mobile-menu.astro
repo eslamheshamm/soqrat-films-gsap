@@ -1,0 +1,20 @@
+---
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<div class="mobile-menu" data-mobile-menu>
+	<button class="mobile-menu__close" data-mobile-menu-close aria-label="Close menu">
+		<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+			<path d="M18 6L6 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+			<path d="M6 6L18 18" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+		</svg>
+	</button>
+	<div class="mobile-menu__bg" data-mobile-menu-bg style="background-image: url(/assets/photos/IMG_3350.JPG)"></div>
+	<div class="mobile-menu__overlay"></div>
+	<nav class="mobile-menu__nav" data-mobile-menu-nav>
+		<a href="/" class={pathname === '/' ? 'is-active' : ''}>Home</a>
+		<a href="/about" class={pathname === '/about' ? 'is-active' : ''}>About</a>
+		<a href="/films" class={pathname === '/films' ? 'is-active' : ''}>Films</a>
+		<a href="/contact" class={pathname === '/contact' ? 'is-active' : ''}>Contact</a>
+	</nav>
+</div>

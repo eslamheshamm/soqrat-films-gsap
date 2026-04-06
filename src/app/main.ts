@@ -7,15 +7,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ScrollSmoother } from "gsap/ScrollSmoother"
 //@ts-ignore
 import { Flip } from "gsap/Flip"
-import { Observer } from "gsap/Observer"
-import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import gsap from "gsap"
 import Media from "./components/media"
 import { SplitText } from "gsap/SplitText"
 import TextAnimation from "./components/text-animation"
 import FontFaceObserver from "fontfaceobserver"
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip, SplitText, Observer, ScrollToPlugin)
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip, SplitText)
 
 class App {
   canvas: Canvas
@@ -27,7 +25,6 @@ class App {
   scrollTop: number
   textAnimation: TextAnimation
   fontLoaded: boolean = false
-  filmsObserver: Observer | null = null
 
   constructor() {
     if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -42,6 +39,7 @@ class App {
     })
 
     this.template = this.getCurrentTemplate()
+    this.initMobileMenu()
 
     this.loadImages(() => {
       this.canvas.createMedias()
@@ -72,7 +70,7 @@ class App {
           name: "default-transition",
           before: () => {
             this.scrollBlocked = true
-            this.scroll.s?.paused(true)
+            this.scroll.lenis?.stop()
           },
           leave: () => {
             const medias = this.canvas.medias && this.canvas.medias
@@ -137,6 +135,7 @@ class App {
             })
 
             this.initFilmsScroll()
+            this.initMobileMenu()
           },
         },
         {
@@ -153,7 +152,7 @@ class App {
           },
           before: () => {
             this.scrollBlocked = true
-            this.scroll.s?.paused(true)
+            this.scroll.lenis?.stop()
 
             const tl = this.textAnimation.animateOut()
 
@@ -228,6 +227,7 @@ class App {
           after: () => {
             this.scroll.init()
             this.textAnimation.init()
+            this.initMobileMenu()
 
             const detailContainer = document.querySelector(
               ".details-container",
@@ -292,70 +292,109 @@ class App {
     }
   }
 
-  initFilmsScroll() {
-    this.destroyFilmsScroll()
+  initMobileMenu() {
+    const hamburger = document.querySelector("[data-hamburger]") as HTMLElement
+    const menu = document.querySelector("[data-mobile-menu]") as HTMLElement
+    const bg = document.querySelector("[data-mobile-menu-bg]") as HTMLElement
+    const overlay = menu?.querySelector(".mobile-menu__overlay") as HTMLElement
+    const closeBtn = menu?.querySelector("[data-mobile-menu-close]") as HTMLElement
+    const links = menu?.querySelectorAll("[data-mobile-menu-nav] a")
 
-    const panels = gsap.utils.toArray<HTMLElement>("[data-films-panel]")
-    if (!panels.length) return
+    if (!hamburger || !menu || !bg || !links?.length) return
 
-    const sections = panels
-    let currentIndex = -1
-    let isAnimating = false
-    let cooldown = false
+    let isOpen = false
+    let tl: gsap.core.Timeline | null = null
 
-    function goToSection(index: number) {
-      if (index < -1 || index >= sections.length || isAnimating || cooldown) return
-      isAnimating = true
-      cooldown = true
-      currentIndex = index
+    const open = () => {
+      isOpen = true
+      hamburger.classList.add("is-open")
+      menu.classList.add("is-open")
+      this.scroll.lenis?.stop()
 
-      // Scroll back to top (header) when index is -1
-      if (index === -1) {
-        gsap.to(window, {
-          scrollTo: { y: 0, autoKill: false },
-          duration: 0.8,
-          ease: "power3.inOut",
-          onComplete: () => {
-            isAnimating = false
-            gsap.delayedCall(0.4, () => { cooldown = false })
-          },
-        })
-        return
-      }
+      tl = gsap.timeline()
 
-      const el = sections[index]
-      const elTop = el.offsetTop
-      const elHeight = el.offsetHeight
-      const viewportHeight = window.innerHeight
-      const targetScroll = elTop - (viewportHeight - elHeight) / 2
-
-      gsap.to(window, {
-        scrollTo: { y: Math.max(0, targetScroll), autoKill: false },
+      tl.to(bg, {
+        y: 0,
         duration: 0.8,
         ease: "power3.inOut",
-        onComplete: () => {
-          isAnimating = false
-          gsap.delayedCall(0.4, () => { cooldown = false })
-        },
       })
+
+      tl.to(overlay, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      }, 0.3)
+
+      tl.to(links, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: "power3.out",
+      }, 0.5)
+
+      tl.to(closeBtn, {
+        opacity: 1,
+        duration: 0.4,
+        ease: "power2.out",
+      }, 0.6)
     }
 
-    this.filmsObserver = Observer.create({
-      type: "wheel,touch,pointer",
-      wheelSpeed: -1,
-      tolerance: 50,
-      onUp: () => goToSection(currentIndex + 1),
-      onDown: () => goToSection(currentIndex - 1),
-      preventDefault: true,
+    const close = () => {
+      isOpen = false
+      hamburger.classList.remove("is-open")
+
+      const closeTl = gsap.timeline({
+        onComplete: () => {
+          menu.classList.remove("is-open")
+          this.scroll.lenis?.start()
+        },
+      })
+
+      closeTl.to(closeBtn, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in",
+      })
+
+      closeTl.to(links, {
+        opacity: 0,
+        y: 20,
+        duration: 0.3,
+        stagger: 0.04,
+        ease: "power2.in",
+      }, 0.05)
+
+      closeTl.to(overlay, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      }, 0.15)
+
+      closeTl.to(bg, {
+        y: "-100%",
+        duration: 0.6,
+        ease: "power3.inOut",
+      }, 0.2)
+    }
+
+    hamburger.addEventListener("click", () => {
+      if (isOpen) close()
+      else open()
+    })
+
+    closeBtn?.addEventListener("click", close)
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (isOpen) close()
+      })
     })
   }
 
-  destroyFilmsScroll() {
-    if (this.filmsObserver) {
-      this.filmsObserver.kill()
-      this.filmsObserver = null
-    }
-  }
+  initFilmsScroll() {}
+
+  destroyFilmsScroll() {}
 
   getCurrentTemplate() {
     return document

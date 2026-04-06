@@ -7,19 +7,54 @@ import Header from "../components/header.astro";
 	<div data-gallery-container class="container">
 		<Header />
 		<div class="contact">
-			<h1 data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
-				Contact Us
-			</h1>
+			<div
+				class="contact__intro"
+				data-text-animation
+				data-text-animation-in-duration="0.6"
+				data-text-animation-out-duration="0.3"
+			>
+				<p class="contact__intro-greeting">
+					<b> Dear Couples, </b>
+				</p>
 
-			<form class="contact__form" data-text-animation data-text-animation-in-duration="0.6" data-text-animation-out-duration="0.3">
+				<p>
+					To preserve the depth and quality of work, I take on just few
+					carefully selected weddings each year.
+				</p>
+				<p>
+					This allows me to craft every celebration with intention, creative
+					vision, and an uncompromising level of care — transforming each story
+					into something truly cinematic and personal.
+				</p>
+				<p>For more information, please fill out the form below.</p>
+			</div>
+
+			<form
+				class="contact__form"
+				data-text-animation
+				data-text-animation-in-duration="0.6"
+				data-text-animation-out-duration="0.3"
+			>
 				<div class="contact__field">
 					<label for="name">Name</label>
-					<input type="text" id="name" name="name" required autocomplete="name" />
+					<input
+						type="text"
+						id="name"
+						name="name"
+						required
+						autocomplete="name"
+					/>
 				</div>
 
 				<div class="contact__field">
 					<label for="email">Email</label>
-					<input type="email" id="email" name="email" required autocomplete="email" />
+					<input
+						type="email"
+						id="email"
+						name="email"
+						required
+						autocomplete="email"
+					/>
 				</div>
 
 				<div class="contact__field">
@@ -29,7 +64,12 @@ import Header from "../components/header.astro";
 
 				<div class="contact__field">
 					<label for="date">Wedding Date</label>
-					<input type="text" id="date" name="date" placeholder="e.g. June 2026" />
+					<input
+						type="text"
+						id="date"
+						name="date"
+						placeholder="e.g. June 2026"
+					/>
 				</div>
 
 				<div class="contact__field">

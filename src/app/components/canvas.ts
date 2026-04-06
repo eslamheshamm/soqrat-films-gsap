@@ -86,7 +86,7 @@ export default class Canvas {
   }
 
   createMedias(activeElement?: HTMLImageElement) {
-    const images = document.querySelectorAll("img")
+    const images = document.querySelectorAll("img:not(.logo__img)")
     images.forEach((image) => {
       if (image !== activeElement) {
         const media = new Media({
