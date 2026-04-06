@@ -25,6 +25,7 @@ class App {
   scrollTop: number
   textAnimation: TextAnimation
   fontLoaded: boolean = false
+  sliderCleanup: (() => void) | null = null
 
   constructor() {
     if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -40,6 +41,8 @@ class App {
 
     this.template = this.getCurrentTemplate()
     this.initMobileMenu()
+
+    this.initSlider()
 
     this.loadImages(() => {
       this.canvas.createMedias()
@@ -114,6 +117,7 @@ class App {
             })
 
             this.destroyFilmsScroll()
+            this.destroySlider()
             this.scrollBlocked = false
 
             this.scroll.reset()
@@ -127,6 +131,7 @@ class App {
             this.setTemplate(template)
 
             this.entryAnimation()
+            this.initSlider()
 
             this.loadImages(() => {
               this.canvas.medias = []
@@ -390,6 +395,93 @@ class App {
         if (isOpen) close()
       })
     })
+  }
+
+  initSlider() {
+    this.destroySlider()
+
+    const slider = document.querySelector("[data-slider]")
+    if (!slider) return
+
+    const slides = slider.querySelectorAll<HTMLElement>(".slider__slide")
+    const prevBtn = slider.querySelector("[data-slider-prev]")
+    const nextBtn = slider.querySelector("[data-slider-next]")
+    const total = slides.length
+    if (total === 0) return
+
+    let current = 0
+    let isAnimating = false
+    let autoTimer: ReturnType<typeof setTimeout>
+
+    // Reset all slides to initial state
+    slides.forEach((s, i) => {
+      s.classList.toggle("slider__slide--active", i === 0)
+      gsap.set(s, { opacity: i === 0 ? 1 : 0, filter: "blur(0px)", scale: 1 })
+    })
+
+    const goTo = (index: number) => {
+      if (isAnimating || index === current) return
+      isAnimating = true
+
+      const outSlide = slides[current]
+      const inSlide = slides[index]
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          outSlide.classList.remove("slider__slide--active")
+          isAnimating = false
+          current = index
+          resetAutoPlay()
+        },
+      })
+
+      inSlide.classList.add("slider__slide--active")
+
+      tl.to(outSlide, {
+        opacity: 0,
+        filter: "blur(20px)",
+        scale: 1.05,
+        duration: 1,
+        ease: "power2.inOut",
+      }, 0)
+
+      tl.fromTo(inSlide, {
+        opacity: 0,
+        filter: "blur(20px)",
+        scale: 1.05,
+      }, {
+        opacity: 1,
+        filter: "blur(0px)",
+        scale: 1,
+        duration: 1,
+        ease: "power2.inOut",
+      }, 0.15)
+    }
+
+    const next = () => goTo((current + 1) % total)
+    const prev = () => goTo((current - 1 + total) % total)
+
+    const resetAutoPlay = () => {
+      clearTimeout(autoTimer)
+      autoTimer = setTimeout(next, 2000)
+    }
+
+    prevBtn?.addEventListener("click", prev)
+    nextBtn?.addEventListener("click", next)
+    resetAutoPlay()
+
+    this.sliderCleanup = () => {
+      clearTimeout(autoTimer)
+      prevBtn?.removeEventListener("click", prev)
+      nextBtn?.removeEventListener("click", next)
+    }
+  }
+
+  destroySlider() {
+    if (this.sliderCleanup) {
+      this.sliderCleanup()
+      this.sliderCleanup = null
+    }
   }
 
   initFilmsScroll() {}
