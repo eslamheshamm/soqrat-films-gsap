@@ -142,6 +142,7 @@ a {
 	padding: 4px;
 	z-index: 1200;
 	position: relative;
+	color: inherit;
 }
 
 .hamburger__line {
