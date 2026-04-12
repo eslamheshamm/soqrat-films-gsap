@@ -402,7 +402,10 @@ h1 {
 
 /* Films page */
 
-.films-section,
+.films-section {
+	padding-top: 8vh;
+}
+
 .films-featured {
 	padding-top: 0;
 }
@@ -548,7 +551,7 @@ h1 {
 
 .about {
 	max-width: 720px;
-	padding: 0 var(--page-padding) 10vh;
+	padding: 8vh var(--page-padding) 10vh;
 }
 
 .about__header {
@@ -612,7 +615,7 @@ h1 {
 
 .contact {
 	max-width: 720px;
-	padding: 0 var(--page-padding) 10vh;
+	padding: 8vh var(--page-padding) 10vh;
 }
 
 .contact__header {
