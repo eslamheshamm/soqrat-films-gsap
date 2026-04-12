@@ -26,6 +26,7 @@ class App {
   textAnimation: TextAnimation
   fontLoaded: boolean = false
   sliderCleanup: (() => void) | null = null
+  filmsMarqueeTween: gsap.core.Tween | null = null
 
   constructor() {
     if (typeof history !== "undefined" && "scrollRestoration" in history) {
@@ -484,9 +485,41 @@ class App {
     }
   }
 
-  initFilmsScroll() {}
+  initFilmsScroll() {
+    const track = document.querySelector("[data-films-marquee-track]") as HTMLElement
+    if (!track) return
 
-  destroyFilmsScroll() {}
+    const items = track.querySelectorAll(".films-marquee__item")
+    const totalItems = items.length
+    const half = totalItems / 2
+
+    // Wait a frame for layout to settle
+    gsap.delayedCall(0, () => {
+      // Calculate width of the first half (original set)
+      let halfWidth = 0
+      for (let i = 0; i < half; i++) {
+        const item = items[i] as HTMLElement
+        halfWidth += item.offsetWidth + 8 // 0.5rem gap
+      }
+
+      this.filmsMarqueeTween = gsap.to(track, {
+        x: -halfWidth,
+        duration: 40,
+        ease: "none",
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((x: number) => parseFloat(x) % halfWidth),
+        },
+      })
+    })
+  }
+
+  destroyFilmsScroll() {
+    if (this.filmsMarqueeTween) {
+      this.filmsMarqueeTween.kill()
+      this.filmsMarqueeTween = null
+    }
+  }
 
   getCurrentTemplate() {
     return document

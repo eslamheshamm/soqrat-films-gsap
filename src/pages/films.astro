@@ -42,19 +42,12 @@ const films = [
 		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506027/n1666_krrcg1.mp4",
 		ar: "1/1",
 	},
-	{
-		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1774791236/nnn4444.mov",
-		ar: "1/1",
-	},
 
 	{
 		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506703/p1_fcelkf.mp4",
 		ar: "13/10.8",
 	},
-	{
-		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506687/stills_asea_still_dfedk6.mov",
-		ar: "1/1",
-	},
+
 	{
 		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506682/reel1_no_logo_cpyhq5.mp4",
 		ar: "4/5",
@@ -66,6 +59,22 @@ const films = [
 	{
 		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1775506595/final_soq_add_color_xbwdbu.mp4",
 		ar: "4/5",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1776025680/final_SOQ_glpa5e.mp4",
+		ar: "5/4",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1776025659/final_2_ro4ac7.mp4",
+		ar: "5/4",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1776025653/g_osnmfx.mp4",
+		ar: "16/9",
+	},
+	{
+		src: "https://res.cloudinary.com/dunixnfkj/video/upload/v1776025625/xzxzx_udnhgt.mp4",
+		ar: "16/9",
 	},
 
 	// {
@@ -79,6 +88,10 @@ function getPoster(src: string) {
 		.replace("/video/upload/", "/video/upload/so_0,w_800,e_blur:300,q_40/")
 		.replace(/\.\w+$/, ".jpg");
 }
+
+function getOptimizedSrc(src: string) {
+	return src;
+}
 ---
 
 <Layout uid="films" template="home">
@@ -86,19 +99,18 @@ function getPoster(src: string) {
 		<Header />
 
 		<section class="films-section">
-			<div class="films-horizontal" data-films-horizontal>
-				<div class="films-track" data-films-track>
+			<div class="films-marquee" data-films-marquee>
+				<div class="films-marquee__track" data-films-marquee-track>
 					{
-						videos.map((v) => (
-							<div class="films-track__item" style={`--ar: ${v.ar};`}>
+						[...videos, ...videos].map((v) => (
+							<div class="films-marquee__item" style={`--ar: ${v.ar};`}>
 								<video
-									src={v.src}
+									data-src={getOptimizedSrc(v.src)}
 									poster={getPoster(v.src)}
-									autoplay
 									muted
 									loop
 									playsinline
-									preload="metadata"
+									preload="none"
 								/>
 							</div>
 						))
@@ -112,15 +124,19 @@ function getPoster(src: string) {
 				films.map((v) => (
 					<div class="films-panel" data-films-panel>
 						<div class="films-panel__inner" style={`--ar: ${v.ar};`}>
-							<video
-								src={v.src}
-								poster={getPoster(v.src)}
-								autoplay
-								muted
-								loop
-								playsinline
-								preload="metadata"
-							/>
+							<div class="films-player" data-films-player>
+								<video
+									data-src={v.src}
+									poster={getPoster(v.src)}
+									playsinline
+									preload="none"
+								/>
+								<button class="films-player__btn" data-films-play aria-label="Play video">
+									<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+										<polygon points="18,14 36,24 18,34" fill="currentColor"/>
+									</svg>
+								</button>
+							</div>
 						</div>
 					</div>
 				))
@@ -128,3 +144,49 @@ function getPoster(src: string) {
 		</section>
 	</div>
 </Layout>
+
+<script>
+	// Load marquee videos immediately (visible on load)
+	document.querySelectorAll("[data-films-marquee] video").forEach((v) => {
+		const video = v as HTMLVideoElement;
+		const src = video.dataset.src;
+		if (src) {
+			video.src = src;
+			video.load();
+			video.play().catch(() => {});
+		}
+	});
+
+	// Click-to-play for featured films
+	document.querySelectorAll("[data-films-player]").forEach((player) => {
+		const video = player.querySelector("video") as HTMLVideoElement;
+		const btn = player.querySelector("[data-films-play]") as HTMLButtonElement;
+		if (!video || !btn) return;
+
+		const toggle = () => {
+			// First click: load the video src
+			if (!video.src || video.src === location.href) {
+				const src = video.dataset.src;
+				if (src) {
+					video.src = src;
+					video.load();
+				}
+			}
+
+			if (video.paused) {
+				video.play().catch(() => {});
+				player.classList.add("is-playing");
+			} else {
+				video.pause();
+				player.classList.remove("is-playing");
+			}
+		};
+
+		btn.addEventListener("click", toggle);
+		video.addEventListener("click", toggle);
+
+		video.addEventListener("ended", () => {
+			player.classList.remove("is-playing");
+		});
+	});
+</script>
