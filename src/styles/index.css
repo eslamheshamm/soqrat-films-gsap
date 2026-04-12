@@ -746,12 +746,15 @@ h1 {
 }
 
 .page-footer {
-	text-align: center;
+	display: flex;
+	justify-content: center;
 	padding: 4rem var(--page-padding) 2rem;
-	font-size: 0.8rem;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
 	opacity: 0.4;
+}
+
+.page-footer__logo {
+	display: block;
+	color: inherit;
 }
 
 .details {
