@@ -101,6 +101,7 @@ a {
 	z-index: 1200;
 	position: relative;
 	visibility: hidden;
+	color: #000;
 
 	a,
 	button {

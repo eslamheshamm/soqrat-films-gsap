@@ -308,6 +308,19 @@ class App {
 
     if (!hamburger || !menu || !bg || !links?.length) return
 
+    // Update active link based on current URL
+    const currentPath = window.location.pathname.replace(/\/$/, "") || "/"
+    links.forEach((link) => {
+      const href = link.getAttribute("href")?.replace(/\/$/, "") || "/"
+      link.classList.toggle("is-active", href === currentPath)
+    })
+
+    // Also update header nav active state
+    document.querySelectorAll(".frame__nav a").forEach((link) => {
+      const href = link.getAttribute("href")?.replace(/\/$/, "") || "/"
+      link.classList.toggle("is-active", href === currentPath)
+    })
+
     let isOpen = false
     let tl: gsap.core.Timeline | null = null
 
@@ -486,30 +499,72 @@ class App {
   }
 
   initFilmsScroll() {
+    // Load marquee videos
+    document.querySelectorAll("[data-films-marquee] video").forEach((v) => {
+      const video = v as HTMLVideoElement
+      const src = video.dataset.src
+      if (src && !video.src) {
+        video.src = src
+        video.load()
+        video.play().catch(() => {})
+      }
+    })
+
+    // Marquee animation
     const track = document.querySelector("[data-films-marquee-track]") as HTMLElement
-    if (!track) return
+    if (track) {
+      const items = track.querySelectorAll(".films-marquee__item")
+      const totalItems = items.length
+      const half = totalItems / 2
 
-    const items = track.querySelectorAll(".films-marquee__item")
-    const totalItems = items.length
-    const half = totalItems / 2
+      gsap.delayedCall(0, () => {
+        let halfWidth = 0
+        for (let i = 0; i < half; i++) {
+          const item = items[i] as HTMLElement
+          halfWidth += item.offsetWidth + 8
+        }
 
-    // Wait a frame for layout to settle
-    gsap.delayedCall(0, () => {
-      // Calculate width of the first half (original set)
-      let halfWidth = 0
-      for (let i = 0; i < half; i++) {
-        const item = items[i] as HTMLElement
-        halfWidth += item.offsetWidth + 8 // 0.5rem gap
+        this.filmsMarqueeTween = gsap.to(track, {
+          x: -halfWidth,
+          duration: 40,
+          ease: "none",
+          repeat: -1,
+          modifiers: {
+            x: gsap.utils.unitize((x: number) => parseFloat(x) % halfWidth),
+          },
+        })
+      })
+    }
+
+    // Click-to-play for featured films
+    document.querySelectorAll("[data-films-player]").forEach((player) => {
+      const video = player.querySelector("video") as HTMLVideoElement
+      const btn = player.querySelector("[data-films-play]") as HTMLButtonElement
+      if (!video || !btn) return
+
+      const toggle = () => {
+        if (!video.src || video.src === location.href) {
+          const src = video.dataset.src
+          if (src) {
+            video.src = src
+            video.load()
+          }
+        }
+
+        if (video.paused) {
+          video.play().catch(() => {})
+          player.classList.add("is-playing")
+        } else {
+          video.pause()
+          player.classList.remove("is-playing")
+        }
       }
 
-      this.filmsMarqueeTween = gsap.to(track, {
-        x: -halfWidth,
-        duration: 40,
-        ease: "none",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize((x: number) => parseFloat(x) % halfWidth),
-        },
+      btn.addEventListener("click", toggle)
+      video.addEventListener("click", toggle)
+
+      video.addEventListener("ended", () => {
+        player.classList.remove("is-playing")
       })
     })
   }
@@ -519,6 +574,14 @@ class App {
       this.filmsMarqueeTween.kill()
       this.filmsMarqueeTween = null
     }
+
+    // Pause all playing videos
+    document.querySelectorAll("[data-films-player] video, [data-films-marquee] video").forEach((v) => {
+      const video = v as HTMLVideoElement
+      video.pause()
+      video.removeAttribute("src")
+      video.load()
+    })
   }
 
   getCurrentTemplate() {
